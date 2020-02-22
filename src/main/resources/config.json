@@ -1,0 +1,12 @@
+{
+    "Set": {
+        "10": {
+            "Command": ["Command"],
+            "Op": false
+        },
+        "20": {
+            "Command": ["Command %player%"],
+            "Op": false
+        }
+    }
+}

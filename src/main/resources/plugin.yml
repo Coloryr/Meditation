@@ -1,0 +1,9 @@
+name: Meditation
+description: Meditation
+author: Color_yr
+main: Color_yr.Meditation.Meditation
+version: 1.0.0
+api-version: 1.13
+commands:
+    dz:
+        usage: /dz
