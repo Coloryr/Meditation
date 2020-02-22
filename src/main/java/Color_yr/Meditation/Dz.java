@@ -48,12 +48,27 @@ public class Dz extends Thread {
 
     private static Lock lock = new ReentrantLock();
 
+    private static void Commanddo(SetOBJ Set, Player player)
+    {
+        boolean Op;
+        List<String> commands = Set.getCommand();
+        Op = player.isOp();
+        if (Set.isOp())
+            player.setOp(true);
+        for (String command : commands) {
+            Player finalPlayer = player;
+            Bukkit.getScheduler().runTask(Meditation.Meditation, () ->
+                    finalPlayer.performCommand(command.replace("%player%", finalPlayer.getName())));
+
+        }
+        player.setOp(Op);
+    }
+
     public static void Check() {
         lock.lock();
         try {
             Player player;
             int time;
-            boolean Op;
             for (Map.Entry<Player, Integer> item : DzList.entrySet()) {
                 player = item.getKey();
                 time = item.getValue();
@@ -61,17 +76,11 @@ public class Dz extends Thread {
                 DzList.put(item.getKey(), time);
                 SetOBJ Set = Meditation.MainConfig.check(time);
                 if (Set != null) {
-                    List<String> commands = Set.getCommand();
-                    Op = player.isOp();
-                    if (Set.isOp())
-                        player.setOp(true);
-                    for (String command : commands) {
-                        Player finalPlayer = player;
-                        Bukkit.getScheduler().runTask(Meditation.Meditation, () ->
-                                finalPlayer.performCommand(command.replace("%player%", finalPlayer.getName())));
-
-                    }
-                    player.setOp(Op);
+                    Commanddo(Set, player);
+                }
+                Set = Meditation.MainConfig.checkD(time);
+                if (Set != null) {
+                    Commanddo(Set, player);
                 }
             }
         } catch (Exception e) {
