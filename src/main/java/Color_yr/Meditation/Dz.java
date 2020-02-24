@@ -25,7 +25,7 @@ public class Dz extends Thread {
         }
         Vector vector = player.getBoundingBox().getCenter().clone();
         Location loc = vector.setY(player.getBoundingBox().getMaxY()).toLocation(player.getWorld()).clone();
-        loc.setY(loc.getY() - 2);
+        loc.setY(loc.getY() - 1.8);
         ArmorStand armorStand = loc.getWorld().spawn(loc, ArmorStand.class, (e) -> {
             e.setVisible(false);
             e.setCanPickupItems(false);
@@ -53,15 +53,15 @@ public class Dz extends Thread {
         boolean Op;
         List<String> commands = Set.getCommand();
         Op = player.isOp();
-        if (Set.isOp())
-            player.setOp(true);
-        for (String command : commands) {
-            Player finalPlayer = player;
-            Bukkit.getScheduler().runTask(Meditation.Meditation, () ->
-                    finalPlayer.performCommand(command.replace("%player%", finalPlayer.getName())));
-
-        }
-        player.setOp(Op);
+        Bukkit.getScheduler().runTask(Meditation.Meditation, () -> {
+            if (Set.isOp())
+                player.setOp(true);
+            for (String command : commands) {
+                Player finalPlayer = player;
+                finalPlayer.performCommand(command.replace("%player%", finalPlayer.getName()));
+            }
+            player.setOp(Op);
+        });
     }
 
     public static void Check() {
